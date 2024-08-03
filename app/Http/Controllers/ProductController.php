@@ -4,12 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::paginate(10);
+        $products = QueryBuilder::for(Product::class)
+            ->defaultSort('name')
+            ->allowedSorts('name', 'price', 'qty')
+            ->allowedFilters([
+                AllowedFilter::scope('search')
+            ])
+            ->paginate(10)
+            ->withQueryString();
+
         return view('products.index', compact('products'));
     }
 
