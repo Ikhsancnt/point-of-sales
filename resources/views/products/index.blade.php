@@ -8,7 +8,15 @@
     </x-slot>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-8">
-        <a href="{{ route('products.create') }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">Create</a>
+        <div class="flex items-center justify-between">
+            <a href="{{ route('products.create') }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">Create</a>
+
+            <form action="{{ route('products.index') }}" method="GET" class="w-full sm:w-1/3 lg:w-1/4 flex items-center ml-4">
+                <label for="table-search" class="sr-only">Search</label>
+                <input name="filter[search]" type="search" placeholder="Search..." value="{{ request('filter.search') }}" class="flex-grow p-2 border border-gray-300 rounded"/>
+                <button type="submit" class="ml-2 p-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Search</button>
+            </form>
+        </div>
     </div>
 
     <div class="py-2">
@@ -17,10 +25,22 @@
                 <table class="w-full text-sm text-left">
                     <thead class="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-700">
                         <tr>
-                            <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => request()->input('sort') === 'name' ? '-name' : 'name']) }}">
+                                    Name
+                                </a>
+                            </th>
                             <th scope="col" class="px-6 py-3">Description</th>
-                            <th scope="col" class="px-6 py-3">Price</th>
-                            <th scope="col" class="px-6 py-3">Quantity</th>
+                            <th scope="col" class="px-6 py-3">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => request()->input('sort') === 'price' ? '-price' : 'price']) }}">
+                                    Price
+                                </a>
+                            </th>                            
+                            <th scope="col" class="px-6 py-3">
+                                <a href="{{ request()->fullUrlWithQuery(['sort' => request()->input('sort') === 'qty' ? '-qty' : 'qty']) }}">
+                                    Quantity
+                                </a>
+                            </th>
                             <th scope="col" class="px-6 py-3">Created At</th>
                             <th scope="col" class="px-6 py-3">Updated At</th>
                             <th scope="col" class="px-6 py-3">Actions</th>

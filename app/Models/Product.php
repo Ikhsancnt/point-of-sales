@@ -14,4 +14,10 @@ class Product extends Model
         'price',
         'qty',
     ];
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('name', 'LIKE', "%{$term}%")
+                     ->orWhere('description', 'LIKE', "%{$term}%");
+    }
+
 }
